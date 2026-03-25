@@ -2,64 +2,44 @@ import java.util.*;
 
 public class BannerApp {
 
-    // Static Inner Class
-    static class CharacterPatternMap {
-        private char character;
-        private String[] pattern;
-
-        // Constructor
-        public CharacterPatternMap(char character, String[] pattern) {
-            this.character = character;
-            this.pattern = pattern;
-        }
-
-        // Getters
-        public char getCharacter() {
-            return character;
-        }
-
-        public String[] getPattern() {
-            return pattern;
-        }
-    }
-
     public static void main(String[] args) {
 
-        // Store patterns
-        List<CharacterPatternMap> patterns = new ArrayList<>();
+        // Create Map
+        Map<Character, String[]> patternMap = new HashMap<>();
 
-        patterns.add(new CharacterPatternMap('O', new String[]{
+        // Store patterns
+        patternMap.put('O', new String[]{
                 " *** ",
                 "*   *",
                 "*   *",
                 "*   *",
                 " *** "
-        }));
+        });
 
-        patterns.add(new CharacterPatternMap('P', new String[]{
+        patternMap.put('P', new String[]{
                 "**** ",
                 "*   *",
                 "**** ",
                 "*    ",
                 "*    "
-        }));
+        });
 
-        patterns.add(new CharacterPatternMap('S', new String[]{
+        patternMap.put('S', new String[]{
                 " ****",
                 "*    ",
                 " *** ",
                 "    *",
                 "**** "
-        }));
+        });
 
-        // Word to display
+        // Word
         String word = "OOPS";
 
         // Print banner
-        printBanner(word, patterns);
+        printBanner(word, patternMap);
     }
 
-    public static void printBanner(String word, List<CharacterPatternMap> patterns) {
+    public static void printBanner(String word, Map<Character, String[]> patternMap) {
 
         int height = 5;
 
@@ -68,10 +48,12 @@ public class BannerApp {
 
             for (char ch : word.toCharArray()) {
 
-                for (CharacterPatternMap map : patterns) {
-                    if (map.getCharacter() == ch) {
-                        line.append(map.getPattern()[row]).append("  ");
-                    }
+                String[] pattern = patternMap.get(ch);
+
+                if (pattern != null) {
+                    line.append(pattern[row]).append("  ");
+                } else {
+                    line.append("???? ").append("  "); // fallback
                 }
             }
 
